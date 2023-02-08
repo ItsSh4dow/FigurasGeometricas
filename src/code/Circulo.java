@@ -134,7 +134,7 @@ public class Circulo extends JFrame{
                         if(e.getSource() == calcular){
                             aux1 = (Integer.parseInt(campoInicio.getText()) < Integer.parseInt(campoFin.getText())) ? Integer.parseInt(campoInicio.getText()) : Integer.parseInt(campoFin.getText());
                             aux2 = (Integer.parseInt(campoFin.getText()) > Integer.parseInt(campoInicio.getText())) ? Integer.parseInt(campoFin.getText()) : Integer.parseInt(campoInicio.getText());
-                            agregarTabla(1, aux1, aux2);
+                            agregarTabla(2, aux1, aux2);
                             
                         }
                     }
@@ -206,7 +206,7 @@ public class Circulo extends JFrame{
             scroll.setBounds(150,120,250,150);
             panel.add(scroll);
         }
-        else{
+        else if (number == 2){
             modelo.addColumn("X");
             modelo.addColumn("Y");
             modelo.addColumn("r");
