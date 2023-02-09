@@ -10,14 +10,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class Parabola extends JFrame{
     private JPanel panel;
-    private JLabel x,y,r;
-    private JTextField X,Y;
+    private JLabel r, inicio, fin;
+    private JTextField campoInicio, campoFin;
     private JButton calcular, regresar; 
-    private double resultado;
+    private JTable resultados; 
+    private DefaultTableModel modelo;
 
     public Parabola(){
         super("Parabola");
@@ -40,15 +45,15 @@ public class Parabola extends JFrame{
         this.add(panel);
     } 
     public void agregarLabels(){
-        x = new JLabel("X: ");
-        x.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        x.setBounds(20,50,50,20);
-        panel.add(x);
+        inicio = new JLabel("Inicio: ");
+        inicio.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        inicio.setBounds(20,50,80,20);
+        panel.add(inicio);
 
-        y = new JLabel("Y: ");
-        y.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        y.setBounds(300,50,50,20);
-        panel.add(y);
+        fin = new JLabel("Final: ");
+        fin.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        fin.setBounds(300,50,80,20);
+        panel.add(fin);
 
         r = new JLabel("r: ");
         r.setFont(new Font("Century Gothic", Font.PLAIN, 15));
@@ -58,14 +63,13 @@ public class Parabola extends JFrame{
 
     }
     public void agregarInputText(){
-        X = new JTextField();
-        X.setBounds(50, 50,70,25);
-        panel.add(X); 
+        campoInicio = new JTextField();
+        campoInicio.setBounds(90, 50,70,25);
+        panel.add(campoInicio); 
 
-        Y = new JTextField();
-        Y.setBounds(330,50,70,25);
-        Y.setEditable(false);
-        panel.add(Y);
+        campoFin = new JTextField();
+        campoFin.setBounds(360,50,70,25);
+        panel.add(campoFin);
     }
     
    
@@ -84,18 +88,17 @@ public class Parabola extends JFrame{
     }
     private void accionesBotones(){ 
         ActionListener evento1 = new ActionListener(){
-            
+        int aux1, aux2;    
             @Override
             public void actionPerformed(ActionEvent e){    
                 try{
-                    if(X.getText().length() !=  0){
+                    if(campoInicio.getText().length() != 0 && campoFin.getText().length() != 0){
                         if(e.getSource() == calcular){
-                            resultado = Math.pow(Double.parseDouble(X.getText()),2);
-                            Y.setText(String.valueOf(resultado));
+                            aux1 = (Integer.parseInt(campoInicio.getText()) < Integer.parseInt(campoFin.getText())) ? Integer.parseInt(campoInicio.getText()) : Integer.parseInt(campoFin.getText());
+                            aux2 = (Integer.parseInt(campoFin.getText()) > Integer.parseInt(campoInicio.getText())) ? Integer.parseInt(campoFin.getText()) : Integer.parseInt(campoInicio.getText());
+                            agregarTabla(aux1, aux2);
                         }    
-                    } 
-                    else
-                        Y.setText("");;
+                    }   
                     
                 }catch(NumberFormatException ex){
                     JOptionPane.showMessageDialog(null, "Deben ser numeros", "Error", JOptionPane.ERROR_MESSAGE);
@@ -120,4 +123,19 @@ public class Parabola extends JFrame{
         };
         regresar.addActionListener(evento3);
     }
+    private void agregarTabla(int begin, int end){
+        modelo = new DefaultTableModel();
+        resultados =  new JTable(modelo);
+        modelo.addColumn("X");
+        modelo.addColumn("Y");
+        for(double i = begin; i <= end; i++){
+            Double res [] = {i,Math.pow(i, 2)};
+            modelo.addRow(res);
+        }
+        panel.add(resultados);
+        JScrollPane scroll = new JScrollPane(resultados, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setBounds(150,120,250,150);
+        panel.add(scroll);
+        
+    } 
 }

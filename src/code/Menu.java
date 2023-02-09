@@ -22,6 +22,7 @@ public class Menu extends JFrame{
     private Circulo ventanaCirculo = new Circulo();
     private Hiperbola ventanHiperbola = new Hiperbola();
     private Parabola ventanaParabola = new Parabola();
+    LineaRecta ventanaLineaRecta = new LineaRecta();
     public  Menu(){
         super("Graficacion ");
         this.setSize(650,500);
@@ -118,8 +119,8 @@ public class Menu extends JFrame{
                     
                 else if(e.getSource() == hiperbola)
                     abrirVentana(ventanHiperbola);    
-                //else if(e.getSource() == linea)
-                    
+                else if(e.getSource() == linea)
+                    abrirVentana(ventanaLineaRecta);    
                else if(e.getSource() == parabola)
                     abrirVentana(ventanaParabola);     
             }

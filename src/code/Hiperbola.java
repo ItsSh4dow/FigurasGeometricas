@@ -10,16 +10,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class Hiperbola extends JFrame{
     private JPanel panel;
-    private JLabel x,y,h,k,a,b, datos;
-    private JTextField X,Y,H,K,A,B;
+    private JLabel h,k,a,b,datos,inicio, fin;
+    private JTextField H,K,A,B, campoInicio, campoFin;
     private JCheckBox fueraOrigen;
     private JButton calcular, regresar; 
-    private double c, lr;
-    
+    private JTable resultados; 
+    private DefaultTableModel modelo;
 
     public Hiperbola(){
         super("Hiperbola");
@@ -43,10 +47,10 @@ public class Hiperbola extends JFrame{
         this.add(panel);
     } 
     public void agregarLabels(){
-        x = new JLabel("X: ");
-        x.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        x.setBounds(20,50,50,20);
-        panel.add(x);
+        inicio = new JLabel("Inicio: ");
+        inicio.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        inicio.setBounds(20,50,80,20);
+        panel.add(inicio);
 
         a = new JLabel("a^2: ");
         a.setFont(new Font("Century Gothic", Font.PLAIN, 20));
@@ -54,10 +58,10 @@ public class Hiperbola extends JFrame{
         panel.add(a);
 
 
-        y = new JLabel("Y: ");
-        y.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        y.setBounds(300,50,50,20);
-        panel.add(y);
+        fin = new JLabel("Final: ");
+        fin.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        fin.setBounds(300,50,80,20);
+        panel.add(fin);
 
         b = new JLabel("b^2: ");
         b.setFont(new Font("Century Gothic", Font.PLAIN, 20));
@@ -66,13 +70,13 @@ public class Hiperbola extends JFrame{
 
         h = new JLabel("h: ");
         h.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        h.setBounds(150,50,50,20);
+        h.setBounds(180,50,50,20);
         h.setVisible(false);
         panel.add(h);
 
         k = new JLabel("k: ");
         k.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        k.setBounds(420,50,50,20);
+        k.setBounds(450,50,50,20);
         k.setVisible(false);
         panel.add(k);
 
@@ -84,32 +88,31 @@ public class Hiperbola extends JFrame{
 
     } 
     public void agregarInputText(){
-        X = new JTextField("X^2");
-        X.setBounds(50, 50,70,25);
-        X.setEditable(false);
-        panel.add(X); 
+        campoInicio = new JTextField();
+        campoInicio.setBounds(90, 50,70,25);
+        panel.add(campoInicio); 
 
+        
         A = new JTextField();
         A.setBounds(70, 130,70,25);
         panel.add(A); 
 
-        Y = new JTextField("Y^2");
-        Y.setEditable(false);
-        Y.setBounds(330,50,70,25);
-        panel.add(Y);
+        campoFin = new JTextField();
+        campoFin.setBounds(360,50,70,25);
+        panel.add(campoFin);
 
         B = new JTextField();
         B.setBounds(350,130,70,25);
         panel.add(B);
 
         H = new JTextField();
-        H.setBounds(170,50,70,25);
+        H.setBounds(200,50,70,25);
         H.setVisible(false);
         panel.add(H);
         
 
         K = new JTextField();
-        K.setBounds(450,50,70,25);
+        K.setBounds(480,50,70,25);
         K.setVisible(false);
         panel.add(K);
     }
@@ -135,36 +138,28 @@ public class Hiperbola extends JFrame{
     }
     private void accionesBotones(){ 
         ActionListener evento1 = new ActionListener(){
-
+            int aux1, aux2;
             @Override
             public void actionPerformed(ActionEvent e){   
                 try{
-                    if(A.getText().length() !=  0 && B.getText().length() != 0 && !fueraOrigen.isSelected()){
+                    if(A.getText().length() !=  0 && B.getText().length() != 0 &&  campoInicio.getText().length() != 0  && campoFin.getText().length() != 0 && !fueraOrigen.isSelected()){
                         if(e.getSource() == calcular && Double.parseDouble(A.getText()) >= 0 && Double.parseDouble(B.getText()) >= 0){
-                            c = redondear(Math.sqrt(Double.parseDouble(A.getText()) + Double.parseDouble(B.getText())));           
-                            lr = redondear(2*Double.parseDouble(B.getText()) / (Math.sqrt(Double.parseDouble(A.getText()))));
-
-                            datos.setText(("Centro (0,0)       a: "+redondear(Math.sqrt(Double.parseDouble(A.getText()))) 
-                            + "         b: "+redondear(Math.sqrt(Double.parseDouble(B.getText())))+ "       c: "+ c+"      lr: "+lr));
-                            datos.setVisible(true);
+                            aux1 = (Integer.parseInt(campoInicio.getText()) < Integer.parseInt(campoFin.getText())) ? Integer.parseInt(campoInicio.getText()) : Integer.parseInt(campoFin.getText());
+                            aux2 = (Integer.parseInt(campoFin.getText()) > Integer.parseInt(campoInicio.getText())) ? Integer.parseInt(campoFin.getText()) : Integer.parseInt(campoInicio.getText());
+                            agregarTabla(1, aux1, aux2);
                         }    
                     } 
-                    else if((A.getText().length() !=  0 && B.getText().length() != 0) && (H.getText().length() !=  0 && K.getText().length() != 0)){
+                    else if((campoInicio.getText().length() !=  0 && campoFin.getText().length() != 0) && (H.getText().length() !=  0 && K.getText().length() != 0)){
                         if(e.getSource() == calcular){
-                            c = redondear(Math.round(Math.sqrt(Double.parseDouble(A.getText()) + Double.parseDouble(B.getText()))));
-                            lr = redondear(Math.round(2*Double.parseDouble(B.getText())) / (Math.sqrt(Double.parseDouble(A.getText()))));
-
-                            datos.setText(("Centro ("+H.getText()+","+K.getText()+")       a: "+redondear(Math.sqrt(Double.parseDouble(A.getText()))) 
-                            + "         b: "+redondear(Math.sqrt(Double.parseDouble(B.getText()))) + "       c: "+ c+"      lr: "+lr));
-                            datos.setVisible(true);
+                            aux1 = (Integer.parseInt(campoInicio.getText()) < Integer.parseInt(campoFin.getText())) ? Integer.parseInt(campoInicio.getText()) : Integer.parseInt(campoFin.getText());
+                            aux2 = (Integer.parseInt(campoFin.getText()) > Integer.parseInt(campoInicio.getText())) ? Integer.parseInt(campoFin.getText()) : Integer.parseInt(campoInicio.getText());
+                            agregarTabla(2, aux1, aux2);
                         }
                     }
-                    else
-                        datos.setVisible(false);
                     
                 }catch(NumberFormatException ex){
                     JOptionPane.showMessageDialog(null, "Deben ser numeros", "Error", JOptionPane.ERROR_MESSAGE);
-                    datos.setVisible(false);
+                    
                 }
                 
             }      
@@ -177,17 +172,12 @@ public class Hiperbola extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){    
                 if(fueraOrigen.isSelected()){
-                    X.setText("X^2 - ");
-                    Y.setText("Y^2 - ");
-
                     H.setVisible(true);
                     K.setVisible(true);
                     h.setVisible(true);
                     k.setVisible(true);
                 }
                 else{
-                    X.setText("X^2 ");
-                    Y.setText("Y^2 ");
                     H.setVisible(false);
                     K.setVisible(false);
                     h.setVisible(false);
@@ -216,5 +206,36 @@ public class Hiperbola extends JFrame{
     }
     private double redondear(double number){
         return Math.round(number * 10000.0)/10000.0;
+    }
+    private void agregarTabla(int number, int begin, int end){
+        modelo = new DefaultTableModel();
+        resultados =  new JTable(modelo);
+        if(number == 1){
+            modelo.addColumn("X");
+            modelo.addColumn("Y");
+            modelo.addColumn("lr");
+            for(double i = begin; i <= end; i++){
+                Double res [] = {i,i, redondear((2*Double.parseDouble(A.getText())) / (Math.sqrt(Double.parseDouble(B.getText())))) };
+                modelo.addRow(res);
+            }
+            panel.add(resultados);
+            JScrollPane scroll = new JScrollPane(resultados, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroll.setBounds(150,170,250,150);
+            panel.add(scroll);
+        }
+        else if (number == 2){
+            modelo.addColumn("X");
+            modelo.addColumn("Y");
+            modelo.addColumn("Lr");
+            for(double i = begin; i <= end; i++){
+                Double res [] = {Math.pow(i - Double.parseDouble(H.getText()),2), Math.pow(i - Double.parseDouble(K.getText()),2), 
+                    redondear((2*Double.parseDouble(A.getText())) / (Math.sqrt(Double.parseDouble(B.getText()))))};
+                modelo.addRow(res);
+            }
+            panel.add(resultados);
+            JScrollPane scroll = new JScrollPane(resultados, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroll.setBounds(150,170,250,150);
+            panel.add(scroll);
+        }
     }
 }

@@ -19,12 +19,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class Circulo extends JFrame{
     private JPanel panel;
-    private JLabel h,k,r, inicio, fin;
+    private JLabel h,k, inicio, fin;
     private JTextField H,K, campoInicio, campoFin;
     private JCheckBox fueraOrigen;
     private JButton calcular, regresar; 
     private JTable resultados; 
-    DefaultTableModel modelo;
+    private DefaultTableModel modelo;
 
     public Circulo(){
         super("Circulo");
@@ -71,11 +71,7 @@ public class Circulo extends JFrame{
         k.setVisible(false);
         panel.add(k);
 
-        r = new JLabel("r: ");
-        r.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-        r.setBounds(150,200,300,20);
-        r.setVisible(false);
-        panel.add(r);
+        
 
     }
     public void agregarInputText(){
