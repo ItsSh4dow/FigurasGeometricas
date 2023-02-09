@@ -22,7 +22,8 @@ public class Menu extends JFrame{
     private Circulo ventanaCirculo = new Circulo();
     private Hiperbola ventanHiperbola = new Hiperbola();
     private Parabola ventanaParabola = new Parabola();
-    LineaRecta ventanaLineaRecta = new LineaRecta();
+    private LineaRecta ventanaLineaRecta = new LineaRecta();
+    private Elipse ventanaElipse = new Elipse(); 
     public  Menu(){
         super("Graficacion ");
         this.setSize(650,500);
@@ -115,8 +116,8 @@ public class Menu extends JFrame{
             public void actionPerformed(ActionEvent e){    
                 if(e.getSource() == circulo)
                     abrirVentana(ventanaCirculo);
-                //else if( e.getSource() == elipse)
-                    
+                else if( e.getSource() == elipse)
+                    abrirVentana(ventanaElipse);
                 else if(e.getSource() == hiperbola)
                     abrirVentana(ventanHiperbola);    
                 else if(e.getSource() == linea)
@@ -133,6 +134,7 @@ public class Menu extends JFrame{
         linea.addActionListener(evento1);
         parabola.addActionListener(evento1);
     }
+    // Metodo que recibe un objeto del tipo Jframe que nos permite abrirla sin tener que 
     private void abrirVentana(JFrame ventana){
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setSize(650,500);
