@@ -1,227 +1,241 @@
 package code;
-
-
-import javax.swing.JOptionPane;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
 
-public class Elipse extends JFrame {
-
+public class Elipse extends JFrame{
     private JPanel panel;
-    private JLabel X, Y, L1, L2, Res;
-    private JTextField V1, V2, h, k;
-    private JButton calcular, regresar;
-    private JCheckBox sinOrigen;
-    private double a, b, c, lr;
+    private JLabel h,k,a,b,datos,inicio, fin;
+    private JTextField H,K,A,B, campoInicio, campoFin;
+    private JCheckBox fueraOrigen;
+    private JButton calcular, regresar; 
+    private JTable resultados; 
+    private DefaultTableModel modelo;
 
-    public Elipse() {
-        super("Ecuacion de la Elipse");
-        setSize(650, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        iniciarComponentes();
+    public Elipse(){
+        super("Elipse");
+        this.setSize(650,500);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        inicarComponentes();
     }
 
-    public void iniciarComponentes() {
+    public void inicarComponentes(){
         agregarPanel();
         agregarLabels();
         agregarInputText();
         agregarCheckBox();
         agregarBotones();
-    }
-
-    public void agregarPanel() {
+    } 
+    public void agregarPanel(){
         panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(Color.white);
         this.add(panel);
-    }
+    } 
+    public void agregarLabels(){
+        inicio = new JLabel("Inicio: ");
+        inicio.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        inicio.setBounds(20,50,80,20);
+        panel.add(inicio);
 
-    public void agregarLabels() {
-        X = new JLabel("    X");
-        X.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        X.setBounds(10, 50, 50, 20);
-        panel.add(X);
+        a = new JLabel("a^2: ");
+        a.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        a.setBounds(20,130,50,20);
+        panel.add(a);
 
-        L1 = new JLabel("-----");
-        L1.setFont(new Font("Arial", Font.BOLD, 30));
-        L1.setBounds(10, 65, 70, 20);
-        panel.add(L1);
 
-        Y = new JLabel("    Y");
-        Y.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        Y.setBounds(150, 50, 50, 20);
-        panel.add(Y);
+        fin = new JLabel("Final: ");
+        fin.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        fin.setBounds(300,50,80,20);
+        panel.add(fin);
 
-        L2 = new JLabel("-----");
-        L2.setFont(new Font("Century Gothic", Font.BOLD, 30));
-        L2.setBounds(150, 65, 70, 20);
-        panel.add(L2);
+        b = new JLabel("b^2: ");
+        b.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        b.setBounds(300,130,50,20);
+        panel.add(b);
 
-        Res = new JLabel("Resultado: ");
-        Res.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-        Res.setBounds(10, 150, 550, 20);
-        Res.setVisible(false);
-        panel.add(Res);
-
-    }
-
-    public void agregarInputText() {
-        V1 = new JTextField();
-        V1.setBounds(15, 90, 50, 20);
-        panel.add(V1);
-
-        V2 = new JTextField();
-        V2.setBounds(160, 90, 50, 20);
-        panel.add(V2);
-
-        h = new JTextField();
-        h.setBounds(80, 50, 50, 20);
+        h = new JLabel("h: ");
+        h.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        h.setBounds(180,50,50,20);
         h.setVisible(false);
         panel.add(h);
 
-        k = new JTextField();
-        k.setBounds(220, 50, 50, 20);
+        k = new JLabel("k: ");
+        k.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        k.setBounds(450,50,50,20);
         k.setVisible(false);
         panel.add(k);
 
+        datos = new JLabel("c: ");
+        datos.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        datos.setBounds(50,200,450,20);
+        datos.setVisible(false);
+        panel.add(datos);
+
+    } 
+    public void agregarInputText(){
+        campoInicio = new JTextField();
+        campoInicio.setBounds(90, 50,70,25);
+        panel.add(campoInicio); 
+
+        
+        A = new JTextField();
+        A.setBounds(70, 130,70,25);
+        panel.add(A); 
+
+        campoFin = new JTextField();
+        campoFin.setBounds(360,50,70,25);
+        panel.add(campoFin);
+
+        B = new JTextField();
+        B.setBounds(350,130,70,25);
+        panel.add(B);
+
+        H = new JTextField();
+        H.setBounds(200,50,70,25);
+        H.setVisible(false);
+        panel.add(H);
+        
+
+        K = new JTextField();
+        K.setBounds(480,50,70,25);
+        K.setVisible(false);
+        panel.add(K);
+    }
+    
+    public void agregarCheckBox(){
+        fueraOrigen = new JCheckBox("¿Esta fuera del origen?");
+        fueraOrigen.setBounds(440, 380, 200,30);
+        panel.add(fueraOrigen);
     }
 
-    public void agregarCheckBox() {
-        sinOrigen = new JCheckBox("¿Calcular Fuera del Origen?");
-        sinOrigen.setBounds(250, 335, 200, 30);
-        sinOrigen.setBackground(Color.white);
-        panel.add(sinOrigen);
-
-    }
-
-    public void agregarBotones() {
+    public void agregarBotones(){
         calcular = new JButton("Calcular");
         calcular.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        calcular.setBounds(200, 380, 100, 30);
-
+        calcular.setBounds(70,380,100,30);
         panel.add(calcular);
 
         regresar = new JButton("Regresar");
         regresar.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-        regresar.setBounds(350, 380, 100, 30);
-
+        regresar.setBounds(270,380,100,30);
         panel.add(regresar);
 
         accionesBotones();
-
     }
-
-    private void accionesBotones() {
-        ActionListener evento1 = new ActionListener() {
+    private void accionesBotones(){ 
+        ActionListener evento1 = new ActionListener(){
+            int aux1, aux2;
             @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if (V1.getText().length() != 0 && V2.getText().length() != 0 && !sinOrigen.isSelected()) {
-                        if (e.getSource() == calcular) {
-                            if (Double.parseDouble(V1.getText()) > Double.parseDouble(V2.getText())) {
-                                a = Double.parseDouble(V1.getText());
-                                b = Double.parseDouble(V2.getText());
-
-                                c = Math.sqrt(Math.pow(a, 2) - Math.pow(b, 2));
-                                lr = (2 * Math.pow(b, 2)) / a;
-
-                                Res.setText(("Centro (0,0)    F(Focos)= ±" + c + "     Lr (Lado recto) = ±" + lr));
-                                Res.setVisible(true);
-
-                            } else {
-                                a = Double.parseDouble(V2.getText());
-                                b = Double.parseDouble(V1.getText());
-
-                                c = Math.sqrt(Math.pow(a, 2) - Math.pow(b, 2));
-                                lr = (2 * Math.pow(b, 2)) / a;
-
-                                Res.setText(("Centro (0,0)    F(Focos)= ±" + c + "     Lr (Lado recto) = ±" + lr));
-                                Res.setVisible(true);
-                            }
-
+            public void actionPerformed(ActionEvent e){   
+                try{
+                    if(A.getText().length() !=  0 && B.getText().length() != 0 &&  campoInicio.getText().length() != 0  && campoFin.getText().length() != 0 && !fueraOrigen.isSelected()){
+                        if(e.getSource() == calcular && Double.parseDouble(A.getText()) >= 0 && Double.parseDouble(B.getText()) >= 0){
+                            aux1 = (Integer.parseInt(campoInicio.getText()) < Integer.parseInt(campoFin.getText())) ? Integer.parseInt(campoInicio.getText()) : Integer.parseInt(campoFin.getText());
+                            aux2 = (Integer.parseInt(campoFin.getText()) > Integer.parseInt(campoInicio.getText())) ? Integer.parseInt(campoFin.getText()) : Integer.parseInt(campoInicio.getText());
+                            agregarTabla(1, aux1, aux2);
+                        }    
+                    } 
+                    else if((campoInicio.getText().length() !=  0 && campoFin.getText().length() != 0) && (H.getText().length() !=  0 && K.getText().length() != 0)){
+                        if(e.getSource() == calcular){
+                            aux1 = (Integer.parseInt(campoInicio.getText()) < Integer.parseInt(campoFin.getText())) ? Integer.parseInt(campoInicio.getText()) : Integer.parseInt(campoFin.getText());
+                            aux2 = (Integer.parseInt(campoFin.getText()) > Integer.parseInt(campoInicio.getText())) ? Integer.parseInt(campoFin.getText()) : Integer.parseInt(campoInicio.getText());
+                            agregarTabla(2, aux1, aux2);
                         }
-                    } else if ((V1.getText().length() != 0 && V2.getText().length() != 0) && (h.getText().length() != 0 && k.getText().length() != 0)) {
-                        if (e.getSource() == calcular) {
-
-                            if (Double.parseDouble(V1.getText()) > Double.parseDouble(V2.getText())) {
-                                a = Double.parseDouble(V1.getText());
-                                b = Double.parseDouble(V2.getText());
-
-                                c = Math.sqrt(Math.pow(a, 2) - Math.pow(b, 2));
-                                lr = (2 * Math.pow(b, 2)) / a;
-
-                                Res.setText(("Centro (" + Double.parseDouble(h.getText()) + "," + Double.parseDouble(k.getText()) + ")    F(Focos)= ±" + c + "     Lr (Lado recto) = ±" + lr));
-                                Res.setVisible(true);
-
-                            } else {
-                                a = Double.parseDouble(V2.getText());
-                                b = Double.parseDouble(V1.getText());
-
-                                c = Math.sqrt(Math.pow(a, 2) - Math.pow(b, 2));
-                                lr = (2 * Math.pow(b, 2)) / a;
-
-                                Res.setText(("Centro (" + Double.parseDouble(h.getText()) + "," + Double.parseDouble(k.getText()) + ")    F(Focos)= ±" + c + "     Lr (Lado recto) = ±" + lr));
-                                Res.setVisible(true);
-                            }
-
-                        }
-                    } else {
-                        Res.setVisible(false);
                     }
-
-                } catch (NumberFormatException ex) {
+                    
+                }catch(NumberFormatException ex){
                     JOptionPane.showMessageDialog(null, "Deben ser numeros", "Error", JOptionPane.ERROR_MESSAGE);
+                    
                 }
-            }
+                
+            }      
+            
         };
-        regresar.addActionListener(evento1);
         calcular.addActionListener(evento1);
 
-        ActionListener evento2 = new ActionListener() {
-
+        ActionListener evento2 = new ActionListener(){
+            
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (sinOrigen.isSelected()) {
+            public void actionPerformed(ActionEvent e){    
+                if(fueraOrigen.isSelected()){
+                    H.setVisible(true);
+                    K.setVisible(true);
                     h.setVisible(true);
                     k.setVisible(true);
-                    X.setText(" X^2 -");
-                    X.setBounds(10, 50, 70, 20);
-                    Y.setText(" Y^2 -");
-                    Y.setBounds(150, 50, 70, 20);
-                    L1.setText("-------");
-                    L1.setBounds(10, 65, 150, 20);
-                    L2.setText("-------");
-                    L2.setBounds(150, 65, 150, 20);
-                    V1.setBounds(20, 90, 50, 20);
-                    V2.setBounds(180, 90, 50, 20);
-                } else {
+                }
+                else{
+                    H.setVisible(false);
+                    K.setVisible(false);
                     h.setVisible(false);
                     k.setVisible(false);
-                    X.setText(" X");
-                    X.setBounds(10, 50, 50, 20);
-                    Y.setText(" Y");
-                    Y.setBounds(150, 50, 70, 20);
-                    L1.setText("----");
-                    L1.setBounds(10, 65, 70, 20);
-                    L2.setText("----");
-                    L2.setBounds(150, 65, 70, 20);
-                    V1.setBounds(15, 90, 50, 20);
-                    V2.setBounds(160, 90, 50, 20);
+                }     
+            }
+        };
+        fueraOrigen.addActionListener(evento2);
+
+        ActionListener evento3 = new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e){    
+                if(e.getSource() == regresar){
+                    Menu menu = new Menu();
+                    menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    menu.setSize(650,500);
+                    menu.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    menu.setLocationRelativeTo(null);
+                    menu.setVisible(true);
+                    setVisible(false);
                 }
             }
         };
-        sinOrigen.addActionListener(evento2);
-
+        regresar.addActionListener(evento3);
     }
-
+    private double redondear(double number){
+        return Math.round(number * 10000.0)/10000.0;
+    }
+    private void agregarTabla(int number, int begin, int end){
+        modelo = new DefaultTableModel();
+        resultados =  new JTable(modelo);
+        if(number == 1){
+            modelo.addColumn("X");
+            modelo.addColumn("Y");
+            modelo.addColumn("Foco");
+            for(double i = begin; i <= end; i++){
+                Double res [] = {i,i, redondear((2*Double.parseDouble(A.getText())) / (Math.sqrt(Double.parseDouble(B.getText())))) };
+                modelo.addRow(res);
+            }
+            panel.add(resultados);
+            JScrollPane scroll = new JScrollPane(resultados, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroll.setBounds(150,170,250,150);
+            panel.add(scroll);
+        }
+        else if (number == 2){
+            modelo.addColumn("X");
+            modelo.addColumn("Y");
+            modelo.addColumn("Foco");
+            for(double i = begin; i <= end; i++){
+                Double res [] = {Math.pow(i - Double.parseDouble(H.getText()),2), Math.pow(i - Double.parseDouble(K.getText()),2), 
+                    redondear((2*Double.parseDouble(A.getText())) / (Math.sqrt(Double.parseDouble(B.getText()))))};
+                modelo.addRow(res);
+            }
+            panel.add(resultados);
+            JScrollPane scroll = new JScrollPane(resultados, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroll.setBounds(150,170,250,150);
+            panel.add(scroll);
+        }
+    }
 }

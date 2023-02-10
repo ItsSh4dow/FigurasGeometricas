@@ -167,7 +167,7 @@ public class LineaRecta extends JFrame {
         }
         panel.add(resultados);
         JScrollPane scroll = new JScrollPane(resultados, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setBounds(150,120,250,150);
+        scroll.setBounds(150,170,250,150);
         panel.add(scroll);
         
     } 

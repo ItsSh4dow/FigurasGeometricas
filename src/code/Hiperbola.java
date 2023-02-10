@@ -213,7 +213,7 @@ public class Hiperbola extends JFrame{
         if(number == 1){
             modelo.addColumn("X");
             modelo.addColumn("Y");
-            modelo.addColumn("lr");
+            modelo.addColumn("Foco");
             for(double i = begin; i <= end; i++){
                 Double res [] = {i,i, redondear((2*Double.parseDouble(A.getText())) / (Math.sqrt(Double.parseDouble(B.getText())))) };
                 modelo.addRow(res);
@@ -226,7 +226,7 @@ public class Hiperbola extends JFrame{
         else if (number == 2){
             modelo.addColumn("X");
             modelo.addColumn("Y");
-            modelo.addColumn("Lr");
+            modelo.addColumn("Foco");
             for(double i = begin; i <= end; i++){
                 Double res [] = {Math.pow(i - Double.parseDouble(H.getText()),2), Math.pow(i - Double.parseDouble(K.getText()),2), 
                     redondear((2*Double.parseDouble(A.getText())) / (Math.sqrt(Double.parseDouble(B.getText()))))};

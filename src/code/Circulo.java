@@ -134,12 +134,8 @@ public class Circulo extends JFrame{
                             
                         }
                     }
-                    else
-                        modelo.setRowCount(0);
-                    
                 }catch(NumberFormatException ex){
                     JOptionPane.showMessageDialog(null, "Deben ser numeros", "Error", JOptionPane.ERROR_MESSAGE);
-                    modelo.setRowCount(0);
                 }
             }      
         };
